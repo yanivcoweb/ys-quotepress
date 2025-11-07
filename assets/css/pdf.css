@@ -1,0 +1,25 @@
+
+html, body {
+  direction: rtl;
+}
+
+table {
+  width: 100%; 
+  table-layout: fixed;
+  border-collapse: collapse;
+  border: none;
+}
+
+th, td {
+  width: 33.33%;
+  border: none;
+  padding: 8px;
+}
+td label {
+	display: block;
+	width: 100%;
+}
+hr {
+	margin-top: 1px;
+	padding-top: 1px;
+}

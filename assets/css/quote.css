@@ -1,0 +1,11 @@
+
+.ys-btn {
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  border: 1px solid rgba(0,0,0,.2);
+}
+.ys-btn--primary {
+  border-color: transparent;
+}
