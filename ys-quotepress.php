@@ -1,11 +1,13 @@
 <?php
 /**
- * Plugin Name:  YS-QuotePress
- * Description:  Custom Post Type "הצעת מחיר" (quote) + בסיס לתוסף הצעות מחיר.
- * Version:      0.1.0
- * Author:       Yaniv Sasson
- * Text Domain:  ys-quotepress
- */
+* Plugin Name:  YS-QuotePress
+* Description:  Custom Post Type "הצעת מחיר" (quote) + בסיס לתוסף הצעות מחיר.
+* Version:      0.1.0
+* Author:       Yaniv Sasson
+* Text Domain:  ys-quotepress
+* License: GPL-2.0-or-later
+* License URI: https://www.gnu.org/licenses/gpl-2.0.html
+*/
 
 if ( ! defined('ABSPATH') ) exit;
 
