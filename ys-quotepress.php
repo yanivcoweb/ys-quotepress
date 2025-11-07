@@ -125,7 +125,7 @@ final class YS_QuotePress {
 	public static function enqueue_assets_js() : void {
 		if ( is_singular(self::CPT) ) {
 			wp_enqueue_script( 'signature-pad', 'https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js', [], null, true );
-			wp_enqueue_script('ysqp-validate-v3',self::plugin_url() . 'assets/js/validation-v3.js',['signature-pad'],'0.1.1',true);		
+			wp_enqueue_script('ysqp-validate-v3',self::plugin_url() . 'assets/js/validation-v3.js',['signature-pad'],'0.1.2',true);
 		}
 	}
 	
@@ -409,14 +409,28 @@ final class YS_QuotePress {
 		$table = $wpdb->prefix . 'ysqp_signed_quotes';
 
 		// טיפול במחיקה (בטוח עם nonce)
-		if ( isset($_GET['action'], $_GET['id'], $_GET['_wpnonce']) 
-			 && $_GET['action'] === 'delete' 
+		if ( isset($_GET['action'], $_GET['id'], $_GET['_wpnonce'])
+			 && $_GET['action'] === 'delete'
 			 && wp_verify_nonce($_GET['_wpnonce'], 'ysqp_delete_quote_' . $_GET['id']) ) {
 			$wpdb->delete($table, ['id' => intval($_GET['id'])]);
 			echo '<div class="notice notice-success"><p>ההצעה נמחקה בהצלחה.</p></div>';
 		}
 
-		$rows = $wpdb->get_results($wpdb->prepare("SELECT * FROM $table ORDER BY id DESC LIMIT %d", 100));
+		// Pagination setup
+		$per_page = 20;
+		$current_page = isset($_GET['paged']) ? max(1, intval($_GET['paged'])) : 1;
+		$offset = ($current_page - 1) * $per_page;
+
+		// Get total count for pagination
+		$total_items = $wpdb->get_var("SELECT COUNT(*) FROM $table");
+		$total_pages = ceil($total_items / $per_page);
+
+		// Get paginated results
+		$rows = $wpdb->get_results($wpdb->prepare(
+			"SELECT * FROM $table ORDER BY id DESC LIMIT %d OFFSET %d",
+			$per_page,
+			$offset
+		));
 		?>
 		<div class="wrap">
 			<h1>הצעות חתומות</h1>
@@ -465,6 +479,31 @@ final class YS_QuotePress {
 					<?php endif; ?>
 				</tbody>
 			</table>
+
+			<?php if ($total_pages > 1) : ?>
+				<div class="tablenav bottom">
+					<div class="tablenav-pages">
+						<span class="displaying-num">
+							<?php printf(
+								_n('%s פריט', '%s פריטים', $total_items, 'ys-quotepress'),
+								number_format_i18n($total_items)
+							); ?>
+						</span>
+						<?php
+						$page_links = paginate_links([
+							'base'      => add_query_arg('paged', '%#%'),
+							'format'    => '',
+							'prev_text' => '&laquo;',
+							'next_text' => '&raquo;',
+							'total'     => $total_pages,
+							'current'   => $current_page,
+							'type'      => 'plain',
+						]);
+						echo $page_links;
+						?>
+					</div>
+				</div>
+			<?php endif; ?>
 		</div>
 		<?php
 	}

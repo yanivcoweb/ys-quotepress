@@ -25,6 +25,18 @@ window.ysqpInitSignaturePad = function ysqpInitSignaturePad() {
   // אתחול SignaturePad
   window.YSQP_SIG = new SignaturePad(canvas, { minWidth: 0.8, maxWidth: 2.2 });
   console.log('SignaturePad init OK');
+
+  // הוסף event listener לכפתור ניקוי
+  const clearBtn = document.getElementById('ysqp-sig-clear');
+  if (clearBtn) {
+    clearBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (window.YSQP_SIG) {
+        window.YSQP_SIG.clear();
+        console.log('Signature cleared');
+      }
+    });
+  }
 };
 
 // DOM מוכן
