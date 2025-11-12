@@ -18,9 +18,6 @@ if ( file_exists($__autoload) ) {
 	require_once $__autoload;
 }
 
-use Dompdf\Dompdf;
-use Dompdf\Options;
-
 
 final class YS_QuotePress {
 	
@@ -128,13 +125,18 @@ final class YS_QuotePress {
 	public static function enqueue_assets_js() : void {
 		if ( is_singular(self::CPT) ) {
 			wp_enqueue_script( 'signature-pad', 'https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js', [], null, true );
-			wp_enqueue_script('ysqp-validate-v3',self::plugin_url() . 'assets/js/validation-v3.js',['signature-pad'],'0.1.1',true);		
+			wp_enqueue_script('ysqp-validate-v3',self::plugin_url() . 'assets/js/validation-v3.js',['signature-pad'],'0.1.2',true);
 		}
 	}
 	
 	public static function maybe_download_pdf() : void {
 		if ( ! is_singular(self::CPT) ) return;
 		if ( empty($_GET['ysqp']) || $_GET['ysqp'] !== 'pdf' ) return;
+
+		// אבטחה: רק משתמשים מחוברים יכולים להוריד PDF
+		if ( ! current_user_can('edit_posts') ) {
+			wp_die(__('אין לך הרשאה להוריד את הקובץ.', 'ys-quotepress'), 403);
+		}
 
 		$post_id = get_queried_object_id();
 		if ( ! $post_id ) return;
@@ -177,10 +179,13 @@ final class YS_QuotePress {
 		$post = get_post($post_id);
 		if (!$post) return '';
 		setup_postdata($post);
-		
-		// הפוך את מפתחות $form_data למשתנים זמינים בתבנית
-		extract($form_data, EXTR_SKIP);
-	
+
+		// נתוני טופס לתבנית (ללא extract)
+		$first_name = $form_data['first_name'] ?? '';
+		$last_name = $form_data['last_name'] ?? '';
+		$phone = $form_data['phone'] ?? '';
+		$signature_dataurl = $form_data['signature_dataurl'] ?? '';
+
 		ob_start();
 		// קובץ תבנית PDF מתוך התוסף
 		$pdf_template = self::plugin_path() . 'templates/pdf-quote.php';
@@ -199,22 +204,6 @@ final class YS_QuotePress {
 		return (string) ob_get_clean();
 	}
 
-	private static function force_rtl_runs(string $html): string {
-		// RLE (Right-to-Left Embedding) + PDF (Pop Directional Formatting)
-		$RLE = "\u{202B}";
-		$PDF = "\u{202C}";
-
-		// עוטף טקסטים המכילים עברית בין '>' ו-'<'
-		$html = preg_replace_callback('/>([^<]*[\p{Hebrew}][^<]*)</u', function($m) use ($RLE, $PDF) {
-			$s = $m[1];
-			// לא לעטוף פעמיים
-			if ( strpos($s, $RLE) !== false ) return $m[0];
-			return '>' . $RLE . $s . $PDF . '<';
-		}, $html);
-
-		return $html;
-	}
-
 	public static function shortcode_quote_form($atts = []) : string {
 	  ob_start();
 	  include self::plugin_path() . 'templates/quote-form.php'; // אם תשמור את ה-HTML בקובץ
@@ -222,7 +211,7 @@ final class YS_QuotePress {
 	}
 
 	public static function ajax_submit_form_entry(): void {
-		// (אופציונלי) אבטחה בסיסית
+		// אבטחה: nonce
 		if (empty($_POST['_ysqp']) || ! wp_verify_nonce($_POST['_ysqp'], 'ysqp_form')) {
 			wp_send_json_error(['message' => 'bad_nonce'], 403);
 		}
@@ -231,11 +220,24 @@ final class YS_QuotePress {
 		if ( ! $post_id || get_post_type($post_id) !== self::CPT ) {
 			wp_send_json_error(['message' => 'invalid_quote'], 400);
 		}
-		
+
+		// Rate limiting: max 3 submissions per IP per 5 minutes
+		$ip = sanitize_text_field($_SERVER['REMOTE_ADDR'] ?? '');
+		$rate_key = 'ysqp_rate_' . md5($ip);
+		$submissions = get_transient($rate_key);
+		if ($submissions && $submissions >= 3) {
+			wp_send_json_error(['message' => 'rate_limit_exceeded'], 429);
+		}
+		set_transient($rate_key, ($submissions ? $submissions + 1 : 1), 5 * MINUTE_IN_SECONDS);
+
 		$signature_dataurl = '';
 		if (!empty($_POST['signature_dataurl']) && is_string($_POST['signature_dataurl'])) {
-			// ולידציה מינימלית
+			// ולידציה מתקדמת
 			if (strpos($_POST['signature_dataurl'], 'data:image/png;base64,') === 0) {
+				// הגבלת גודל: ~75KB base64 (100KB להיות בטוחים)
+				if (strlen($_POST['signature_dataurl']) > 100000) {
+					wp_send_json_error(['message' => 'signature_too_large'], 400);
+				}
 				$signature_dataurl = $_POST['signature_dataurl'];
 			}
 		}
@@ -303,8 +305,7 @@ final class YS_QuotePress {
 		$table = $wpdb->prefix . 'ysqp_signed_quotes';
 		$now   = current_time('mysql');
 		$hash  = wp_generate_password(20, false); // מזהה אישור (לשימוש עתידי)
-		$ip    = $_SERVER['REMOTE_ADDR'] ?? '';
-		$ua    = $_SERVER['HTTP_USER_AGENT'] ?? '';
+		$ua    = sanitize_text_field($_SERVER['HTTP_USER_AGENT'] ?? '');
 
 		$customer_first_name  = sanitize_text_field($_POST['first_name'] ?? '');
 		$customer_last_name  = sanitize_text_field($_POST['last_name'] ?? '');
@@ -408,14 +409,28 @@ final class YS_QuotePress {
 		$table = $wpdb->prefix . 'ysqp_signed_quotes';
 
 		// טיפול במחיקה (בטוח עם nonce)
-		if ( isset($_GET['action'], $_GET['id'], $_GET['_wpnonce']) 
-			 && $_GET['action'] === 'delete' 
+		if ( isset($_GET['action'], $_GET['id'], $_GET['_wpnonce'])
+			 && $_GET['action'] === 'delete'
 			 && wp_verify_nonce($_GET['_wpnonce'], 'ysqp_delete_quote_' . $_GET['id']) ) {
 			$wpdb->delete($table, ['id' => intval($_GET['id'])]);
 			echo '<div class="notice notice-success"><p>ההצעה נמחקה בהצלחה.</p></div>';
 		}
 
-		$rows = $wpdb->get_results("SELECT * FROM $table ORDER BY id DESC LIMIT 100");
+		// Pagination setup
+		$per_page = 20;
+		$current_page = isset($_GET['paged']) ? max(1, intval($_GET['paged'])) : 1;
+		$offset = ($current_page - 1) * $per_page;
+
+		// Get total count for pagination
+		$total_items = $wpdb->get_var("SELECT COUNT(*) FROM $table");
+		$total_pages = ceil($total_items / $per_page);
+
+		// Get paginated results
+		$rows = $wpdb->get_results($wpdb->prepare(
+			"SELECT * FROM $table ORDER BY id DESC LIMIT %d OFFSET %d",
+			$per_page,
+			$offset
+		));
 		?>
 		<div class="wrap">
 			<h1>הצעות חתומות</h1>
@@ -464,6 +479,31 @@ final class YS_QuotePress {
 					<?php endif; ?>
 				</tbody>
 			</table>
+
+			<?php if ($total_pages > 1) : ?>
+				<div class="tablenav bottom">
+					<div class="tablenav-pages">
+						<span class="displaying-num">
+							<?php printf(
+								_n('%s פריט', '%s פריטים', $total_items, 'ys-quotepress'),
+								number_format_i18n($total_items)
+							); ?>
+						</span>
+						<?php
+						$page_links = paginate_links([
+							'base'      => add_query_arg('paged', '%#%'),
+							'format'    => '',
+							'prev_text' => '&laquo;',
+							'next_text' => '&raquo;',
+							'total'     => $total_pages,
+							'current'   => $current_page,
+							'type'      => 'plain',
+						]);
+						echo $page_links;
+						?>
+					</div>
+				</div>
+			<?php endif; ?>
 		</div>
 		<?php
 	}
