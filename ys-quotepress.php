@@ -148,7 +148,8 @@ final class YS_QuotePress {
 		// בונים את ה-HTML מתוך התבנית הקיימת
 		$html = self::render_pdf_html($post_id);
 
-		// הגדרות מומלצות ל-RTL/עברית
+		// הגדרות מומלצות ל-RTL/עברית עם Heebo
+		$font_dir = self::plugin_path() . 'assets/fonts/Heebo/';
 		$mpdf = new \Mpdf\Mpdf([
 			'mode'             => 'utf-8',
 			'format'           => 'A4',
@@ -156,7 +157,15 @@ final class YS_QuotePress {
 			'rtl'              => true,
 			'autoScriptToLang' => true,
 			'autoLangToFont'   => true,
-			'default_font'     => 'dejavusans', // תומך עברית
+			'default_font'     => 'heebo',
+			'fontDir'          => [$font_dir],
+			'fontdata'         => [
+				'heebo' => [
+					'R'  => 'Heebo-Regular.ttf',
+					'B'  => 'Heebo-Bold.ttf',
+					'L'  => 'Heebo-Light.ttf',
+				],
+			],
 		]);
 
 		// CSS חיצוני אם קיים
@@ -257,6 +266,7 @@ final class YS_QuotePress {
 			wp_send_json_error(['message' => 'mpdf_missing'], 500);
 		}
 
+		$font_dir = self::plugin_path() . 'assets/fonts/Heebo/';
 		$mpdf = new \Mpdf\Mpdf([
 			'mode'             => 'utf-8',
 			'format'           => 'A4',
@@ -264,7 +274,15 @@ final class YS_QuotePress {
 			'rtl'              => true,
 			'autoScriptToLang' => true,
 			'autoLangToFont'   => true,
-			'default_font'     => 'dejavusans',
+			'default_font'     => 'heebo',
+			'fontDir'          => [$font_dir],
+			'fontdata'         => [
+				'heebo' => [
+					'R'  => 'Heebo-Regular.ttf',
+					'B'  => 'Heebo-Bold.ttf',
+					'L'  => 'Heebo-Light.ttf',
+				],
+			],
 		]);
 
 		// CSS ל-PDF אם קיים
