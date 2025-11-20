@@ -35,8 +35,8 @@ if ( ! defined('ABSPATH') ) exit;
 					</td>
 					<td>
 						<div class="ys-quote__meta" >
-							<div class="ys-quote__date"><?php echo esc_html( get_the_date('', $post) ); ?></div>
-							<div class="ys-quote__id">מספר הצעה: <?php echo esc_html($post->ID); ?></div>						
+							<div class="ys-quote__date" style="text-align:left;"><?php echo esc_html( get_the_date('', $post) ); ?></div>
+							<div class="ys-quote__id" style="text-align:left;">מספר הצעה: <?php echo esc_html($post->ID); ?></div>						
 						</div>
 					</td>
 					</tr>	  
