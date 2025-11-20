@@ -9,3 +9,31 @@
 .ys-btn--primary {
   border-color: transparent;
 }
+.section-single-quote {
+	padding-top: 87px;
+	padding-bottom: 87px;
+    background: #eee;
+}
+.ys-quote-wrap {
+    max-width: 891px;
+	margin-right: auto;
+	margin-left: auto;
+    padding: 100px;
+    background: #fff;
+    box-shadow: 0px 0px 15px rgba(0,0,0,0.5);		
+}
+.ys-quote-form label ~ p {
+	margin-top: 0;
+}
+.ys-quote__logo img {
+	width: 170px;
+}
+.ys-quote__date {
+	text-align: left;
+}
+.ys-quote__id {
+	text-align: left;
+}
+.ys-quote__title {
+	text-align: center;
+}

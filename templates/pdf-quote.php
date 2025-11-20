@@ -19,12 +19,33 @@ if ( ! defined('ABSPATH') ) exit;
 		<article id="post-<?php the_ID(); ?>" <?php post_class('ys-quote'); ?>>
 
 			<header class="ys-quote__header">
+				<table width="100%" >
+				<tbody>
+				<tr>
+					<td>
+						<div class="ys-quote__logo">
+							<?php
+								$img = '';
+								$img = get_field('header_logo', 'options');
+								if($img):
+									echo '<img src="'.$img['url'].'" alt="'.$img['alt'].'" />';
+								endif;
+							?>
+						</div>
+					</td>
+					<td>
+						<div class="ys-quote__meta" >
+							<div class="ys-quote__date"><?php echo esc_html( get_the_date('', $post) ); ?></div>
+							<div class="ys-quote__id">מספר הצעה: <?php the_ID(); ?></div>						
+						</div>
+					</td>
+					</tr>	  
+				</tbody>
+				</table>
+				<div>יניב ששון הנדסת תוכנה</div>
+				<div>0533029531</div>
+				<div>yaniv@coweb.co.il</div>
 				<h1 class="ys-quote__title"><?php echo esc_html( get_the_title($post) ); ?></h1>
-				<div class="ys-quote__meta">
-					<time class="ys-quote__date" datetime="<?php echo esc_attr(get_the_date('c')); ?>">
-						<?php echo esc_html( get_the_date('', $post) ); ?>
-					</time>
-				</div>
 			</header>
 
 			<section class="ys-quote__content">

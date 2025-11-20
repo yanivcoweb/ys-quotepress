@@ -1,20 +1,22 @@
 
 html, body {
-  direction: rtl;
-  font-family: 'Heebo', sans-serif;
+	direction: rtl;
+	font-family: 'Heebo', sans-serif;
+	color: #2c3e50; 
+	font-size: 18px;	
 }
 
 table {
-  width: 100%; 
-  table-layout: fixed;
-  border-collapse: collapse;
-  border: none;
+	width: 100%; 
+	table-layout: fixed;
+	border-collapse: collapse;
+	border: none;
 }
 
 th, td {
-  width: 33.33%;
-  border: none;
-  padding: 8px;
+	width: 33.33%;
+	border: none;
+	padding: 8px;
 }
 td label {
 	display: block;
@@ -23,4 +25,20 @@ td label {
 hr {
 	margin-top: 1px;
 	padding-top: 1px;
+}
+h1,h2,h3,h4,h5,h6 {
+	color: #2c3e50;
+}
+
+.ys-quote__logo img {
+	width: 170px;
+}
+.ys-quote__title {
+	text-align: center;
+}
+.ys-quote__date {
+	text-align: left;
+}
+.ys-quote__id {
+	text-align: left;
 }
