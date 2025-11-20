@@ -22,7 +22,7 @@ if ( ! defined('ABSPATH') ) exit;
 				<table width="100%" >
 				<tbody>
 				<tr>
-					<td>
+					<td align="right">
 						<div class="ys-quote__logo">
 							<?php
 								$img = '';
@@ -33,10 +33,10 @@ if ( ! defined('ABSPATH') ) exit;
 							?>
 						</div>
 					</td>
-					<td>
+					<td align="left">
 						<div class="ys-quote__meta" >
 							<div class="ys-quote__date" style="text-align:left;"><?php echo esc_html( get_the_date('', $post) ); ?></div>
-							<div class="ys-quote__id" style="text-align:left;">מספר הצעה: <?php echo esc_html($post->ID); ?></div>						
+							<div class="ys-quote__id" style="text-align:left;">מספר הצעה: <?php echo esc_html($post->ID); ?></div>
 						</div>
 					</td>
 					</tr>	  
