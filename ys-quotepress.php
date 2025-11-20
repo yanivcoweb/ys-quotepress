@@ -193,6 +193,9 @@ final class YS_QuotePress {
 		$first_name = $form_data['first_name'] ?? '';
 		$last_name = $form_data['last_name'] ?? '';
 		$phone = $form_data['phone'] ?? '';
+		$email = $form_data['email'] ?? '';
+		$company_name = $form_data['company_name'] ?? '';
+		$company_id = $form_data['company_id'] ?? '';
 		$signature_dataurl = $form_data['signature_dataurl'] ?? '';
 
 		ob_start();

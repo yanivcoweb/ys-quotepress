@@ -61,29 +61,51 @@ if ( ! defined('ABSPATH') ) exit;
 			<table>
 			<tbody>
 				<tr>
-				  
+
 					<td>
 						<label>שם פרטי:</label>
 						<p><?php echo esc_html( trim($first_name ?? '') ); ?></p>
 						<hr/>
 					</td>
-					
+
 					<td>
 						<label>שם משפחה:</label>
 						<p><?php echo esc_html( trim($last_name ?? '') ); ?></p>
 						<hr/>
 					</td>
-					
+
 					<td>
 						<label>טלפון:</label>
 						<p><?php echo esc_html( trim($phone ?? '') ); ?></p>
 						<hr/>
-					</td>	
-				
+					</td>
+
 				</tr>
-				
+
 				<tr>
-			  
+
+					<td>
+						<label>אימייל:</label>
+						<p><?php echo esc_html( trim($email ?? '') ); ?></p>
+						<hr/>
+					</td>
+
+					<td>
+						<label>שם החברה:</label>
+						<p><?php echo esc_html( trim($company_name ?? '') ); ?></p>
+						<hr/>
+					</td>
+
+					<td>
+						<label>ח.פ / ע.מ:</label>
+						<p><?php echo esc_html( trim($company_id ?? '') ); ?></p>
+						<hr/>
+					</td>
+
+				</tr>
+
+				<tr>
+
 					<td>
 						<label>חתימה:</label>
 						<p>
@@ -93,11 +115,11 @@ if ( ! defined('ABSPATH') ) exit;
 						</p>
 						<hr/>
 					</td>
-					
+
 					<td>	</td>
-					
-					<td></td>	
-				
+
+					<td></td>
+
 				</tr>	
 
 			</tbody>
