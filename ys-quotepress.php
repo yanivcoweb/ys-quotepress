@@ -252,11 +252,13 @@ final class YS_QuotePress {
 		}
 		
 		$form_data = [
-		  'first_name' => sanitize_text_field($_POST['first_name'] ?? ''),
-		  'last_name'  => sanitize_text_field($_POST['last_name']  ?? ''),
-		  'phone'      => sanitize_text_field($_POST['phone']      ?? ''),
+		  'first_name'    => sanitize_text_field($_POST['first_name'] ?? ''),
+		  'last_name'     => sanitize_text_field($_POST['last_name']  ?? ''),
+		  'phone'         => sanitize_text_field($_POST['phone']      ?? ''),
+		  'email'         => sanitize_email($_POST['email'] ?? ''),
+		  'company_name'  => sanitize_text_field($_POST['company_name'] ?? ''),
+		  'company_id'    => sanitize_text_field($_POST['company_id'] ?? ''),
 		  'signature_dataurl' => $signature_dataurl,
-		  // הוסף כאן עוד שדות (email, company, וכו')
 		];
 		// בנה HTML ל-PDF
 		$html = self::render_pdf_html($post_id, $form_data);
@@ -326,26 +328,33 @@ final class YS_QuotePress {
 		$ua    = sanitize_text_field($_SERVER['HTTP_USER_AGENT'] ?? '');
 
 		$customer_first_name  = sanitize_text_field($_POST['first_name'] ?? '');
-		$customer_last_name  = sanitize_text_field($_POST['last_name'] ?? '');
+		$customer_last_name   = sanitize_text_field($_POST['last_name'] ?? '');
+		$customer_phone       = sanitize_text_field($_POST['phone'] ?? '');
+		$customer_email       = sanitize_email($_POST['email'] ?? '');
+		$customer_company_name = sanitize_text_field($_POST['company_name'] ?? '');
+		$customer_company_id  = sanitize_text_field($_POST['company_id'] ?? '');
 		$meta = [
-			'raw' => array_map('sanitize_text_field', $_POST), // או יותר סלקטיבי
+			'raw' => array_map('sanitize_text_field', $_POST),
 		];
 
 		$wpdb->insert($table, [
-			'quote_post_id'     => $post_id,
-			'customer_first_name'     => $customer_first_name,
-			'customer_last_name'     => $customer_last_name,
-			'customer_email'    => '',
-			'approved_at'       => $now,
-			'pdf_attachment_id' => $attach_id ?: 0,
-			'pdf_url'           => $media_url ?: $url, // fallback ל-URL הישיר אם צריך
-			'confirm_hash'      => $hash,
-			'ip'                => $ip,
-			'user_agent'        => $ua,
-			'meta'              => wp_json_encode($meta, JSON_UNESCAPED_UNICODE),
-			'created_at'        => $now,
+			'quote_post_id'         => $post_id,
+			'customer_first_name'   => $customer_first_name,
+			'customer_last_name'    => $customer_last_name,
+			'customer_phone'        => $customer_phone,
+			'customer_email'        => $customer_email,
+			'customer_company_name' => $customer_company_name,
+			'customer_company_id'   => $customer_company_id,
+			'approved_at'           => $now,
+			'pdf_attachment_id'     => $attach_id ?: 0,
+			'pdf_url'               => $media_url ?: $url,
+			'confirm_hash'          => $hash,
+			'ip'                    => $ip,
+			'user_agent'            => $ua,
+			'meta'                  => wp_json_encode($meta, JSON_UNESCAPED_UNICODE),
+			'created_at'            => $now,
 		], [
-			'%d','%s','%s','%s','%d','%s','%s','%s','%s','%s','%s'
+			'%d','%s','%s','%s','%s','%s','%s','%s','%d','%s','%s','%s','%s','%s','%s'
 		]);
 
 
@@ -391,7 +400,10 @@ final class YS_QuotePress {
 			quote_post_id BIGINT UNSIGNED NOT NULL,
 			customer_first_name VARCHAR(190) DEFAULT '' NOT NULL,
 			customer_last_name VARCHAR(190) DEFAULT '' NOT NULL,
+			customer_phone VARCHAR(50) DEFAULT '' NOT NULL,
 			customer_email VARCHAR(190) DEFAULT '' NOT NULL,
+			customer_company_name VARCHAR(190) DEFAULT '' NOT NULL,
+			customer_company_id VARCHAR(50) DEFAULT '' NOT NULL,
 			approved_at DATETIME NOT NULL,
 			pdf_attachment_id BIGINT UNSIGNED DEFAULT 0,
 			pdf_url TEXT,
@@ -458,7 +470,10 @@ final class YS_QuotePress {
 						<th>ID</th>
 						<th>שם פרטי</th>
 						<th>שם משפחה</th>
+						<th>טלפון</th>
 						<th>אימייל</th>
+						<th>שם חברה</th>
+						<th>ח.פ</th>
 						<th>תאריך</th>
 						<th>PDF</th>
 						<th>פעולות</th>
@@ -471,7 +486,10 @@ final class YS_QuotePress {
 								<td><?php echo esc_html($r->id); ?></td>
 								<td><?php echo esc_html($r->customer_first_name); ?></td>
 								<td><?php echo esc_html($r->customer_last_name); ?></td>
+								<td><?php echo esc_html($r->customer_phone ?? ''); ?></td>
 								<td><?php echo esc_html($r->customer_email); ?></td>
+								<td><?php echo esc_html($r->customer_company_name ?? ''); ?></td>
+								<td><?php echo esc_html($r->customer_company_id ?? ''); ?></td>
 								<td><?php echo esc_html($r->approved_at); ?></td>
 								<td>
 									<?php if ( $r->pdf_url ) : ?>
@@ -487,13 +505,13 @@ final class YS_QuotePress {
 										'_wpnonce' => wp_create_nonce('ysqp_delete_quote_' . $r->id),
 									], admin_url('admin.php'));
 									?>
-									<a href="<?php echo esc_url($del_url); ?>" 
+									<a href="<?php echo esc_url($del_url); ?>"
 									   onclick="return confirm('למחוק את הרשומה הזו?');">מחק</a>
 								</td>
 							</tr>
 						<?php endforeach; ?>
 					<?php else : ?>
-						<tr><td colspan="6">אין רשומות להצגה.</td></tr>
+						<tr><td colspan="10">אין רשומות להצגה.</td></tr>
 					<?php endif; ?>
 				</tbody>
 			</table>

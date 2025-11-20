@@ -151,9 +151,47 @@ button#ysqp-sig-clear svg {
         </p>
         <div class="error-message field-is-required" data-inputname="phone">שדה חובה</div>
       </div>
-    </div>	
-	
-	</div>	
+    </div>
+
+	</div>
+
+  <div class="from-row">
+
+    <div class="from-column">
+      <div class="form__field_wrap">
+		<label>אימייל</label>
+        <p class="form__field">
+          <input aria-required="true" maxlength="100" name="email" data-required="required" type="text" data-fieldtype="email" placeholder="*מלא/י את האימייל">
+        </p>
+        <div class="error-message field-is-required" data-inputname="email" data-fieldtype="email">
+          <span class="email-empty">שדה חובה</span>
+          <span class="email-incurrected">כתובת אימייל לא תקינה</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="from-column">
+      <div class="form__field_wrap">
+		<label>שם החברה</label>
+        <p class="form__field">
+          <input aria-required="true" maxlength="100" name="company_name" data-required="required" type="text" placeholder="*מלא/י את שם החברה">
+        </p>
+        <div class="error-message field-is-required" data-inputname="company_name">שדה חובה</div>
+      </div>
+    </div>
+
+    <div class="from-column">
+      <div class="form__field_wrap">
+		<label>ח.פ / ע.מ</label>
+        <p class="form__field">
+          <input aria-required="true" maxlength="40" name="company_id" data-required="required" type="text" placeholder="*מלא/י את מספר ח.פ / ע.מ">
+        </p>
+        <div class="error-message field-is-required" data-inputname="company_id">שדה חובה</div>
+      </div>
+    </div>
+
+  </div>
+
 	<div class="signature-wrap">
 	  <label>חתימה</label>
 	  <div class="sig-pad">
