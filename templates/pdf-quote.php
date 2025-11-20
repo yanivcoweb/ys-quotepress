@@ -16,7 +16,7 @@ if ( ! defined('ABSPATH') ) exit;
 </head>
 <body class="rtl">
 	<main id="primary" class="ys-quote-wrap container container-small">
-		<article id="post-<?php the_ID(); ?>" <?php post_class('ys-quote'); ?>>
+		<article id="post-<?php echo esc_attr($post->ID); ?>" class="ys-quote">
 
 			<header class="ys-quote__header">
 				<table width="100%" >
@@ -28,7 +28,7 @@ if ( ! defined('ABSPATH') ) exit;
 								$img = '';
 								$img = get_field('header_logo', 'options');
 								if($img):
-									echo '<img src="'.$img['url'].'" alt="'.$img['alt'].'" />';
+									echo '<img src="'.$img['url'].'" alt="'.$img['alt'].'" style="width:170px;" />';
 								endif;
 							?>
 						</div>
@@ -36,7 +36,7 @@ if ( ! defined('ABSPATH') ) exit;
 					<td>
 						<div class="ys-quote__meta" >
 							<div class="ys-quote__date"><?php echo esc_html( get_the_date('', $post) ); ?></div>
-							<div class="ys-quote__id">מספר הצעה: <?php the_ID(); ?></div>						
+							<div class="ys-quote__id">מספר הצעה: <?php echo esc_html($post->ID); ?></div>						
 						</div>
 					</td>
 					</tr>	  
