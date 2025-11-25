@@ -496,7 +496,7 @@ final class YS_QuotePress {
 								<td><?php echo esc_html($r->approved_at); ?></td>
 								<td>
 									<?php if ( $r->pdf_url ) : ?>
-										<a href="<?php echo esc_url($r->pdf_url); ?>" target="_blank">הורד PDF</a>
+										<a href="<?php echo esc_url($r->pdf_url); ?>" target="_blank">צפה ב PDF</a>
 									<?php endif; ?>
 								</td>
 								<td>
