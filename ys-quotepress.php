@@ -360,6 +360,16 @@ final class YS_QuotePress {
 			'%d','%s','%s','%s','%s','%s','%s','%s','%d','%s','%s','%s','%s','%s','%s'
 		]);
 
+		// Send emails after successful PDF creation
+		self::send_quote_emails($post_id, [
+			'customer_first_name' => $customer_first_name,
+			'customer_last_name'  => $customer_last_name,
+			'customer_phone'      => $customer_phone,
+			'customer_email'      => $customer_email,
+			'customer_company_name' => $customer_company_name,
+			'customer_company_id' => $customer_company_id,
+			'pdf_url'             => $media_url ?: $url,
+		]);
 
 		wp_send_json_success([
 			'message'     => 'success1',
@@ -367,6 +377,78 @@ final class YS_QuotePress {
 			'pdf_attachment_id' => $attach_id,
 			'pdf_url'     => $url,
 		]);
+	}
+
+	private static function send_quote_emails(int $post_id, array $data) : void {
+		$post = get_post($post_id);
+		if (!$post) return;
+
+		$quote_title = get_the_title($post);
+		$customer_email = $data['customer_email'] ?? '';
+		$pdf_url = $data['pdf_url'] ?? '';
+
+		if (empty($customer_email) || empty($pdf_url)) {
+			return;
+		}
+
+		// Email headers
+		$headers = ['Content-Type: text/html; charset=UTF-8'];
+
+		// 1. Email to customer
+		$customer_subject = sprintf('הצעת מחיר - %s', $quote_title);
+		$customer_message = sprintf(
+			'<html><body dir="rtl" style="font-family: Arial, sans-serif;">
+			<h2>שלום %s,</h2>
+			<p>תודה שמילאת את הצעת המחיר שלנו!</p>
+			<p><strong>הצעת מחיר:</strong> %s</p>
+			<p><strong>מספר הצעה:</strong> %d</p>
+			<p>ניתן להוריד את הצעת המחיר החתומה בקישור הבא:</p>
+			<p><a href="%s" style="background: #0073aa; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">הורדת הצעת מחיר</a></p>
+			<p>נשמח לעמוד לרשותך בכל שאלה.</p>
+			<br>
+			<p>בברכה,<br>צוות יניב ששון הנדסת תוכנה</p>
+			</body></html>',
+			esc_html($data['customer_first_name']),
+			esc_html($quote_title),
+			$post_id,
+			esc_url($pdf_url)
+		);
+
+		wp_mail($customer_email, $customer_subject, $customer_message, $headers);
+
+		// 2. Email to admin (yaniv@coweb.co.il)
+		$admin_email = 'yaniv@coweb.co.il';
+		$admin_subject = sprintf('הצעת מחיר חדשה נחתמה - %s', $quote_title);
+		$admin_message = sprintf(
+			'<html><body dir="rtl" style="font-family: Arial, sans-serif;">
+			<h2>הצעת מחיר חדשה נחתמה</h2>
+			<p><strong>הצעת מחיר:</strong> %s</p>
+			<p><strong>מספר הצעה:</strong> %d</p>
+			<hr>
+			<h3>פרטי הלקוח:</h3>
+			<ul>
+				<li><strong>שם פרטי:</strong> %s</li>
+				<li><strong>שם משפחה:</strong> %s</li>
+				<li><strong>טלפון:</strong> %s</li>
+				<li><strong>אימייל:</strong> %s</li>
+				<li><strong>שם החברה:</strong> %s</li>
+				<li><strong>ח.פ / ע.מ:</strong> %s</li>
+			</ul>
+			<hr>
+			<p><a href="%s" style="background: #0073aa; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">צפה בהצעת המחיר</a></p>
+			</body></html>',
+			esc_html($quote_title),
+			$post_id,
+			esc_html($data['customer_first_name']),
+			esc_html($data['customer_last_name']),
+			esc_html($data['customer_phone']),
+			esc_html($customer_email),
+			esc_html($data['customer_company_name']),
+			esc_html($data['customer_company_id']),
+			esc_url($pdf_url)
+		);
+
+		wp_mail($admin_email, $admin_subject, $admin_message, $headers);
 	}
 
 	private static function attach_pdf_to_media(string $abs_path, int $post_id = 0) : array {
