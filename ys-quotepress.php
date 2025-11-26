@@ -392,7 +392,14 @@ final class YS_QuotePress {
 		}
 
 		// Email headers
-		$headers = ['Content-Type: text/html; charset=UTF-8'];
+		//$headers = ['Content-Type: text/html; charset=UTF-8'];
+		$site_url = get_bloginfo('wpurl');
+		$host = $_SERVER['HTTP_HOST'];
+		$headers = "MIME-Version: 1.0\r\n";
+		$headers.= "Content-Type: text/html;charset=UTF-8\r\n";
+		$headers.= "From: ".$site_url."  <info@".$host.">\r\n";
+		$headers.= "X-Mailer: PHP/" . phpversion();		
+
 
 		// 1. Email to customer
 		$customer_subject = sprintf('הצעת מחיר - %s', $quote_title);
