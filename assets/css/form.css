@@ -1,5 +1,4 @@
 .ys-quote-form-wrap {
-  /* max-width: 640px; */
   margin: 2rem auto;
 }
 
@@ -36,24 +35,24 @@
 }
 
 .ys-quote-form-wrap button:hover {
-  background: #1dd2af;
+  	background: #1dd2af;
 }
 
 .ys-quote-form-wrap .error-message {
-  display: none;
-  padding: 0.15rem 1rem;
-  font-size: 0.85rem;
-  line-height: 1.15;
-  color: red;
+	display: none;
+	padding: 0.15rem 1rem;
+	font-size: 0.85rem;
+	line-height: 1.15;
+	color: red;
 }
 .ys-quote-form-wrap .form-validation-ok {
-	 display:none;
-	 margin:10px 0;
-	 padding:8px 12px;
-	 background:#e9f9ef;
-	 border:1px solid #bfe8cc;
-	 border-radius:8px;
-	 color:#0b6b3a;"
+	display:none;
+	margin:10px 0;
+	padding:8px 12px;
+	background:#e9f9ef;
+	border:1px solid #bfe8cc;
+	border-radius:8px;
+	color:#0b6b3a;
 }
 .ys-quote-form-wrap .ys-btn-submit {
 	margin-top: 20px;
@@ -78,5 +77,15 @@
 @keyframes spin{
 	to{
 		transform:rotate(360deg)
+	}
+}
+@media (max-width: 768px) {
+	.from-column {
+		width: calc(50% - 20px);
+	}
+}
+@media (max-width: 480px) {
+	.from-column {
+		width: 100%;
 	}
 }

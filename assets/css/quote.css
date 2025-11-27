@@ -37,3 +37,30 @@
 .ys-quote__title {
 	text-align: center;
 }
+@media (max-width: 768px) {
+  .section-single-quote {
+    padding-top: 50px;
+    padding-bottom: 50px; 
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+	.ys-quote-wrap {
+		padding: 40px 15px;
+	}
+	.ys-quote__logo img {
+		width: 100px;
+	}
+  header {
+    font-size: 11px;
+  }
+	.ys-quote__date {
+		font-size: 11px;
+	}
+	.ys-quote__id {
+		font-size: 11px;
+	}
+	.ys-quote__title {
+    margin-top: 30px;
+		font-size: 20px;
+	}
+}

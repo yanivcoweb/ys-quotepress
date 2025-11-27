@@ -3,64 +3,7 @@
 <div class="loader-circle-wrap" id="loader-circle-wrap" >
   <div class="loader" aria-label="Loading…" ></div>
 </div>
-<?php /*
-<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
-<script>
 
-let YSQP_SIG;
-
-function initSignaturePad() {
-  const canvas = document.getElementById('ysqp-signature');
-  if (!canvas) return;
-
-  // 1) קבע גודל תצוגה (ב-CSS או כאן ב-style)
-  const displayWidth  = 280; // הרוחב שרוצים על המסך
-  const displayHeight = 100; // הגובה שרוצים על המסך
-  canvas.style.width  = displayWidth + 'px';
-  canvas.style.height = displayHeight + 'px';
-
-  // 2) כייל את ה-canvas הפנימי לפי DPR
-  function resizeCanvas() {
-    const ratio = Math.max(window.devicePixelRatio || 1, 1);
-    // קבע את רזולוציית ה-canvas הפנימי
-    canvas.width  = Math.round(displayWidth  * ratio);
-    canvas.height = Math.round(displayHeight * ratio);
-
-    const ctx = canvas.getContext('2d');
-    // איפוס טרנספורמציה ואז סקייל
-    ctx.setTransform(1,0,0,1,0,0);
-    ctx.scale(ratio, ratio);
-
-    // אם כבר קיימת חתימה — נקה כי הקואורדינטות השתנו
-    if (YSQP_SIG) YSQP_SIG.clear();
-  }
-
-  resizeCanvas();
-  window.addEventListener('resize', resizeCanvas, { passive: true });
-
-  // 3) עכשיו אתחל את SignaturePad
-  YSQP_SIG = new SignaturePad(canvas, {
-    minWidth: 0.8,
-    maxWidth: 2.2
-  });
-  
-    // נקי: ודא שזה לא שולח טופס
-  const clearBtn = document.getElementById('ysqp-sig-clear');
-  if (clearBtn) {
-    clearBtn.addEventListener('click', (e) => {
-      e.preventDefault(); // ליתר בטחון
-	console.log('ysqp-sig-clear click');
-      if (YSQP_SIG) YSQP_SIG.clear();
-    });
-  }
-  
-}
-
-document.addEventListener('DOMContentLoaded', initSignaturePad);
-
-
-</script>
-*/ ?>
 <style>
 .signature-wrap {
 	position: relative;
@@ -125,7 +68,7 @@ button#ysqp-sig-clear svg {
   
     <div class="from-column">
       <div class="form__field_wrap">
-		<label>שם פרטי</label>
+	    	<label>שם פרטי</label>
         <p class="form__field">
           <input aria-required="true" maxlength="40" name="first_name" data-required="required" type="text" placeholder="*מלא/י את השם פרטי">
         </p>
@@ -135,7 +78,7 @@ button#ysqp-sig-clear svg {
 	
     <div class="from-column">
       <div class="form__field_wrap">
-		<label>שם משפחה</label>
+		    <label>שם משפחה</label>
         <p class="form__field">
           <input aria-required="true" maxlength="80" name="last_name" data-required="required" type="text" placeholder="*מלא/י את השם משפחה">
         </p>
@@ -145,21 +88,17 @@ button#ysqp-sig-clear svg {
 	
     <div class="from-column">
       <div class="form__field_wrap">
-		<label>טלפון</label>
+	    	<label>טלפון</label>
         <p class="form__field">
           <input aria-required="true" maxlength="40" name="phone" data-required="required" type="text" placeholder="*מלא/י את מספר הטלפון">
         </p>
         <div class="error-message field-is-required" data-inputname="phone">שדה חובה</div>
       </div>
     </div>
-
-	</div>
-
-  <div class="from-row">
-
+	
     <div class="from-column">
       <div class="form__field_wrap">
-		<label>אימייל</label>
+		    <label>אימייל</label>
         <p class="form__field">
           <input aria-required="true" maxlength="100" name="email" data-required="required" type="text" data-fieldtype="email" placeholder="*מלא/י את האימייל">
         </p>
@@ -172,7 +111,7 @@ button#ysqp-sig-clear svg {
 
     <div class="from-column">
       <div class="form__field_wrap">
-		<label>שם החברה</label>
+    		<label>שם החברה</label>
         <p class="form__field">
           <input aria-required="true" maxlength="100" name="company_name" data-required="required" type="text" placeholder="*מלא/י את שם החברה">
         </p>
@@ -182,7 +121,7 @@ button#ysqp-sig-clear svg {
 
     <div class="from-column">
       <div class="form__field_wrap">
-		<label>ח.פ / ע.מ</label>
+    		<label>ח.פ / ע.מ</label>
         <p class="form__field">
           <input aria-required="true" maxlength="40" name="company_id" data-required="required" type="text" placeholder="*מלא/י את מספר ח.פ / ע.מ">
         </p>
