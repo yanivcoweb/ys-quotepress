@@ -1,4 +1,14 @@
 
+/* Reduce font size by 10% for elements above h1 */
+.ys-quote header {
+	font-size: 90%;
+}
+
+.ys-quote header table,
+.ys-quote header div {
+	font-size: 1em; /* Inherits 90% from parent */
+}
+
 .ys-btn {
   display: inline-block;
   padding: 10px 14px;

@@ -121,7 +121,7 @@ final class YS_QuotePress {
 
 	public static function enqueue_assets() : void {
 		if ( is_singular(self::CPT) ) {
-			wp_enqueue_style(	'ys-quotepress-quote',self::plugin_url() . 'assets/css/quote.css',[],'0.1.1');
+			wp_enqueue_style(	'ys-quotepress-quote',self::plugin_url() . 'assets/css/quote.css',[],'0.1.2');
 			wp_enqueue_style(	'ys-quotepress-form',self::plugin_url() . 'assets/css/form.css',[],'0.1.3');
 		}
 	}
