@@ -66,9 +66,16 @@ document.addEventListener('DOMContentLoaded', function () {
 			console.log('isFormValid',isFormValid);
             if (!isFormValid) {
 				document.getElementById('loader-circle-wrap').style.display = 'none';
-				
+
                 return false;
             }
+
+			// Validate signature
+			if (window.YSQP_SIG && window.YSQP_SIG.isEmpty()) {
+				alert('נא להוסיף חתימה');
+				document.getElementById('loader-circle-wrap').style.display = 'none';
+				return false;
+			}
 			
             let recaptchaPassed = await verifyRecaptchaV3(form);
 			console.log('recaptchaPassed',recaptchaPassed);

@@ -2,8 +2,18 @@
 html, body {
 	direction: rtl;
 	font-family: 'Heebo', sans-serif;
-	color: #2c3e50; 
-	font-size: 18px;	
+	color: #2c3e50;
+	font-size: 18px;
+}
+
+/* Reduce font size by 10% for elements above h1 */
+.ys-quote__header {
+	font-size: 90%;
+}
+
+.ys-quote__header table,
+.ys-quote__header div {
+	font-size: 1em; /* Inherits 90% from parent */
 }
 
 table {

@@ -48,6 +48,25 @@ if ( ! defined('ABSPATH') ) exit;
 				<h1 class="ys-quote__title"><?php echo esc_html( get_the_title($post) ); ?></h1>
 			</header>
 
+			<div style="margin: 20px 0;">
+				<table width="100%">
+					<tr>
+						<td align="right" style="width: 50%; vertical-align: top;">
+							<?php
+							$customer_details = get_post_meta($post->ID, 'quote_customer_details', true);
+							if (!empty($customer_details)) :
+							?>
+								<div style="text-align: right;">
+									<strong>עבור:</strong><br>
+									<div style="white-space: pre-line; margin-top: 5px;"><?php echo esc_html($customer_details); ?></div>
+								</div>
+							<?php endif; ?>
+						</td>
+						<td style="width: 50%;"></td>
+					</tr>
+				</table>
+			</div>
+
 			<section class="ys-quote__content">
 				<?php
 					// התוכן העשיר של ההצעה (WP)
