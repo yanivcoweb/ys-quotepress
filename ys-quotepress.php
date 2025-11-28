@@ -55,8 +55,12 @@ final class YS_QuotePress {
 		
 		add_action('wp_ajax_submit_form_entry',        [__CLASS__, 'ajax_submit_form_entry']);
 		add_action('wp_ajax_nopriv_submit_form_entry', [__CLASS__, 'ajax_submit_form_entry']);
-		
+
 		add_action('admin_menu', [__CLASS__, 'register_admin_page']);
+
+		// Register meta box for customer details
+		add_action('add_meta_boxes', [__CLASS__, 'add_customer_details_meta_box']);
+		add_action('save_post', [__CLASS__, 'save_customer_details_meta']);
 	}
 	
 	public static function plugin_path() : string {
@@ -220,6 +224,76 @@ final class YS_QuotePress {
 	  ob_start();
 	  include self::plugin_path() . 'templates/quote-form.php'; // אם תשמור את ה-HTML בקובץ
 	  return ob_get_clean();
+	}
+
+	public static function add_customer_details_meta_box() : void {
+		add_meta_box(
+			'ysqp_customer_details',
+			'פרטי לקוח להצעת מחיר',
+			[__CLASS__, 'render_customer_details_meta_box'],
+			self::CPT,
+			'normal',
+			'high'
+		);
+	}
+
+	public static function render_customer_details_meta_box($post) : void {
+		// Add nonce for security
+		wp_nonce_field('ysqp_customer_details_nonce', 'ysqp_customer_details_nonce');
+
+		$customer_details = get_post_meta($post->ID, 'quote_customer_details', true);
+		?>
+		<div style="margin: 10px 0;">
+			<p>
+				<label for="quote_customer_details" style="display: block; margin-bottom: 5px; font-weight: bold;">
+					פרטי הלקוח (יוצג ב-PDF תחת "עבור:"):
+				</label>
+				<textarea
+					id="quote_customer_details"
+					name="quote_customer_details"
+					rows="5"
+					style="width: 100%; direction: rtl;"
+					placeholder="לדוגמה:&#10;חברת ABC בע&quot;מ&#10;רחוב ראשי 123&#10;תל אביב"
+				><?php echo esc_textarea($customer_details); ?></textarea>
+			</p>
+			<p class="description">
+				טקסט זה יופיע ב-PDF החתום בצד ימין, מתחת לכותרת "עבור:". כל שורה חדשה תוצג בשורה נפרדת.
+			</p>
+		</div>
+		<?php
+	}
+
+	public static function save_customer_details_meta($post_id) : void {
+		// Check if nonce is set
+		if (!isset($_POST['ysqp_customer_details_nonce'])) {
+			return;
+		}
+
+		// Verify nonce
+		if (!wp_verify_nonce($_POST['ysqp_customer_details_nonce'], 'ysqp_customer_details_nonce')) {
+			return;
+		}
+
+		// Check if this is an autosave
+		if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+			return;
+		}
+
+		// Check user permissions
+		if (!current_user_can('edit_post', $post_id)) {
+			return;
+		}
+
+		// Check if this is the correct post type
+		if (get_post_type($post_id) !== self::CPT) {
+			return;
+		}
+
+		// Save the data
+		if (isset($_POST['quote_customer_details'])) {
+			$customer_details = sanitize_textarea_field($_POST['quote_customer_details']);
+			update_post_meta($post_id, 'quote_customer_details', $customer_details);
+		}
 	}
 
 	public static function ajax_submit_form_entry(): void {
