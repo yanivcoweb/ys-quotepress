@@ -41,8 +41,8 @@ if ( ! defined('ABSPATH') ) exit;
 					<td style="vertical-align: top;text-align: left;font-size: 13px;">
 						<div style="display: inline-block;text-align: right;">
 							<div class="ys-quote__meta" style="text-align: right;">
-								<div class="ys-quote__date" ><?php echo esc_html( get_the_date('', $post) ); ?></div>
-								<div class="ys-quote__id" >מספר הצעה: <?php echo esc_html($post->ID); ?></div>						
+								<div class="ys-quote__date" style="text-align: right;"><?php echo esc_html( get_the_date('', $post) ); ?></div>
+								<div class="ys-quote__id" style="text-align: right;">מספר הצעה: <?php echo esc_html($post->ID); ?></div>						
 							</div>
 							<?php
 							$customer_details = get_post_meta($post->ID, 'quote_customer_details', true);
@@ -50,7 +50,7 @@ if ( ! defined('ABSPATH') ) exit;
 							?>
 							<div style="text-align: right;">
 								<strong>עבור:</strong><br>
-								<div style="margin-top: 5px;"><?php echo nl2br(esc_html($customer_details)); ?></div>
+								<div style="margin-top: 5px; text-align: right;"><?php echo nl2br(esc_html($customer_details)); ?></div>
 							</div>
 							<?php endif; ?>
 						</div>
