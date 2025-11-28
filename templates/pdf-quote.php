@@ -38,24 +38,32 @@ if ( ! defined('ABSPATH') ) exit;
 							<div>yaniv@coweb.co.il</div>
 						</div>
 					</td>
-					<td style="vertical-align: top;text-align: left;font-size: 13px;">
-						<div style="display: inline-block;text-align: right;">
-							<div class="ys-quote__meta" style="text-align: right;">
-								<div class="ys-quote__date" style="text-align: right;"><?php echo esc_html( get_the_date('', $post) ); ?></div>
-								<div class="ys-quote__id" style="text-align: right;">מספר הצעה: <?php echo esc_html($post->ID); ?></div>						
-							</div>
+					<td style="vertical-align: top;font-size: 13px;" align="left">
+						<table style="font-size: 13px;">
+							<tr>
+								<td align="right">
+									<div class="ys-quote__date"><?php echo esc_html( get_the_date('', $post) ); ?></div>
+								</td>
+							</tr>
+							<tr>
+								<td align="right">
+									<div class="ys-quote__id">מספר הצעה: <?php echo esc_html($post->ID); ?></div>
+								</td>
+							</tr>
 							<?php
 							$customer_details = get_post_meta($post->ID, 'quote_customer_details', true);
 							if (!empty($customer_details)) :
 							?>
-							<div style="text-align: right;">
-								<strong>עבור:</strong><br>
-								<div style="margin-top: 5px; text-align: right;"><?php echo nl2br(esc_html($customer_details)); ?></div>
-							</div>
+							<tr>
+								<td align="right" style="padding-top: 10px;">
+									<strong>עבור:</strong><br>
+									<?php echo nl2br(esc_html($customer_details)); ?>
+								</td>
+							</tr>
 							<?php endif; ?>
-						</div>
+						</table>
 					</td>
-					</tr>	  
+					</tr>
 				</tbody>
 				</table>
 				<h1 class="ys-quote__title"><?php echo esc_html( get_the_title($post) ); ?></h1>
@@ -133,19 +141,19 @@ if ( ! defined('ABSPATH') ) exit;
 
 					<td></td>
 
-				</tr>	
+				</tr>
 
 			</tbody>
 			</table>
 			</section>
 
-			
+
 		</article>
-		
+
 		<footer class="pdf-footer">
 			<p>© <span class="ltr"><?php echo esc_html( date('Y') ); ?></span> <?php echo esc_html( get_bloginfo('name') ); ?> — כל הזכויות שמורות.</p>
 		</footer>
-		
+
 	</main>
 
 </body>
