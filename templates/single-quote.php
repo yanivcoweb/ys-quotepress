@@ -48,7 +48,7 @@ the_post();
 						?>
 							<div class="quote-customer-details" style="display: inline-block; ">
 								<strong>עבור:</strong><br>
-								<div style="white-space: pre-line;"><?php echo esc_html($customer_details); ?></div>
+								<div><?php echo nl2br(esc_html($customer_details)); ?></div>
 							</div>
 						<?php endif; ?>
 						</div>

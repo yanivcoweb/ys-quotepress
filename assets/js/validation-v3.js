@@ -159,6 +159,22 @@ document.addEventListener('DOMContentLoaded', function () {
 				  // הסתרת הטופס עצמו (לא חובה)
 				  // form.style.display = 'none';
 				
+				// Disable all form inputs and signature
+				form.querySelectorAll('input, select, textarea, button[type="submit"]').forEach(function(field) {
+					field.disabled = true;
+				});
+
+				// Disable signature pad
+				if (window.YSQP_SIG) {
+					window.YSQP_SIG.off();
+				}
+
+				// Disable clear button
+				const clearBtn = document.getElementById('ysqp-sig-clear');
+				if (clearBtn) {
+					clearBtn.disabled = true;
+				}
+
 				return;
 			  } else {
 				alert('There was an error submitting the form.');

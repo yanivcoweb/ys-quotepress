@@ -129,7 +129,7 @@ final class YS_QuotePress {
 	public static function enqueue_assets_js() : void {
 		if ( is_singular(self::CPT) ) {
 			wp_enqueue_script( 'signature-pad', 'https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js', [], null, true );
-			wp_enqueue_script('ysqp-validate-v3',self::plugin_url() . 'assets/js/validation-v3.js',['signature-pad'],'0.1.4',true);
+			wp_enqueue_script('ysqp-validate-v3',self::plugin_url() . 'assets/js/validation-v3.js',['signature-pad'],'0.1.5',true);
 		}
 	}
 	

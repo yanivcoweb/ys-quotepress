@@ -50,7 +50,7 @@ if ( ! defined('ABSPATH') ) exit;
 						?>
 							<div style="text-align: right;">
 								<strong>עבור:</strong><br>
-								<div style="white-space: pre-line; margin-top: 5px;"><?php echo esc_html($customer_details); ?></div>
+								<div style="margin-top: 5px;"><?php echo nl2br(esc_html($customer_details)); ?></div>
 							</div>
 						<?php endif; ?>
 						</div>
