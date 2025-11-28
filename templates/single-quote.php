@@ -16,7 +16,7 @@ the_post();
 	<div class="ys-quote-wrap">
 		<article id="post-<?php the_ID(); ?>" <?php post_class('ys-quote clearfix'); ?>>
 
-			<header >
+			<header>
 				<table width="100%" >
 				<tbody>
 				<tr>
@@ -30,46 +30,38 @@ the_post();
 								endif;
 							?>
 						</div>
+						<div>
+							<div>יניב ששון הנדסת תוכנה</div>
+							<div>0533029531</div>
+							<div>yaniv@coweb.co.il</div>
+						</div>
 					</td>
-					<td>
+					<td style="vertical-align: top;text-align: left;">
+						<div style="display: inline-block;text-align: right">
 						<div class="ys-quote__meta" >
 							<div class="ys-quote__date"><?php echo esc_html( get_the_date() ); ?></div>
 							<div class="ys-quote__id">מספר הצעה: <?php the_ID(); ?></div>						
+						</div>
+						<?php
+						$customer_details = get_post_meta(get_the_ID(), 'quote_customer_details', true);
+						if (!empty($customer_details)) :
+						?>
+							<div class="quote-customer-details" style="display: inline-block; ">
+								<strong>עבור:</strong><br>
+								<div style="white-space: pre-line;"><?php echo esc_html($customer_details); ?></div>
+							</div>
+						<?php endif; ?>
 						</div>
 					</td>
 					</tr>	  
 				</tbody>
 				</table>
-				<div>יניב ששון הנדסת תוכנה</div>
-				<div>0533029531</div>
-				<div>yaniv@coweb.co.il</div>
-
 				<h1 class="ys-quote__title"><?php the_title(); ?></h1>
 			</header>
-
-			<div style="margin: 20px 0;">
-				<table width="100%">
-					<tr>
-						<td align="right" style="width: 50%; vertical-align: top;">
-							<?php
-							$customer_details = get_post_meta(get_the_ID(), 'quote_customer_details', true);
-							if (!empty($customer_details)) :
-							?>
-								<div class="quote-customer-details" style="text-align: right;">
-									<strong>עבור:</strong><br>
-									<div style="white-space: pre-line; margin-top: 5px;"><?php echo esc_html($customer_details); ?></div>
-								</div>
-							<?php endif; ?>
-						</td>
-						<td style="width: 50%;"></td>
-					</tr>
-				</table>
-			</div>
 
 			<section class="ys-quote__content">
 				<?php the_content(); ?>
 			</section>
-
 
 			<?php
 			// מקום למחיר/שורה תחתונה – אפשר למשוך ממטא:
