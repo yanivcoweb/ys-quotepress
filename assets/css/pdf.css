@@ -7,13 +7,10 @@ html, body {
 }
 
 /* Reduce font size by 10% for elements above h1 */
-.ys-quote__header {
-	font-size: 90%;
-}
 
 .ys-quote__header table,
 .ys-quote__header div {
-	font-size: 1em; /* Inherits 90% from parent */
+	font-size: 13px; /* Inherits 90% from parent */
 }
 
 table {
@@ -41,7 +38,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .ys-quote__logo img {
-	width: 170px;
+	width: 125px;
 }
 .ys-quote__title {
 	text-align: center;

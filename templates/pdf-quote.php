@@ -28,31 +28,31 @@ if ( ! defined('ABSPATH') ) exit;
 								$img = '';
 								$img = get_field('header_logo', 'options');
 								if($img):
-									echo '<img src="'.$img['url'].'" alt="'.$img['alt'].'" style="width:170px;" />';
+									echo '<img src="'.$img['url'].'" alt="'.$img['alt'].'" style="width:125px;" />';
 								endif;
 							?>
 						</div>
-						<div>
+						<div style="margin-top: 10px; font-size: 13px;">
 							<div>יניב ששון הנדסת תוכנה</div>
 							<div>0533029531</div>
 							<div>yaniv@coweb.co.il</div>
 						</div>
 					</td>
-					<td style="vertical-align: top;text-align: left;">
-						<div style="display: inline-block;text-align: right">
-						<div class="ys-quote__meta" >
-							<div class="ys-quote__date" ><?php echo esc_html( get_the_date('', $post) ); ?></div>
-							<div class="ys-quote__id" >מספר הצעה: <?php echo esc_html($post->ID); ?></div>						
-						</div>
-						<?php
-						$customer_details = get_post_meta($post->ID, 'quote_customer_details', true);
-						if (!empty($customer_details)) :
-						?>
-							<div style="text-align: right;">
+					<td style="vertical-align: top;text-align: left;font-size: 13px;">
+						<div style="display: inline-block;text-align: right;">
+							<div class="ys-quote__meta" >
+								<div class="ys-quote__date" ><?php echo esc_html( get_the_date('', $post) ); ?></div>
+								<div class="ys-quote__id" >מספר הצעה: <?php echo esc_html($post->ID); ?></div>						
+							</div>
+							<?php
+							$customer_details = get_post_meta($post->ID, 'quote_customer_details', true);
+							if (!empty($customer_details)) :
+							?>
+							<div >
 								<strong>עבור:</strong><br>
 								<div style="margin-top: 5px;"><?php echo nl2br(esc_html($customer_details)); ?></div>
 							</div>
-						<?php endif; ?>
+							<?php endif; ?>
 						</div>
 					</td>
 					</tr>	  
