@@ -137,8 +137,8 @@ button#ysqp-sig-clear svg {
 		<canvas id="ysqp-signature" width="280" height="100"></canvas>
 	  </div>
 	  <div class="sig-actions" >
-		<button type="button" id="ysqp-sig-clear" class="button">  
-		<svg fill="#000000" height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+		<button type="button" id="ysqp-sig-clear" class="button">
+		<svg fill="#000000" height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
 			 viewBox="0 0 511.998 511.998" xml:space="preserve">
 		<g>
 			<g>
@@ -173,6 +173,7 @@ button#ysqp-sig-clear svg {
 		</svg>
 		</button>
 	  </div>
+	  <div class="error-message field-is-required" data-inputname="signature" style="display: none;">שדה חובה - נא להוסיף חתימה</div>
 	</div>
  	<?php /*
 	<div class="from-row">

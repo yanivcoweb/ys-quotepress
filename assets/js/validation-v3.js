@@ -26,6 +26,12 @@ window.ysqpInitSignaturePad = function ysqpInitSignaturePad() {
   window.YSQP_SIG = new SignaturePad(canvas, { minWidth: 0.8, maxWidth: 2.2 });
   console.log('SignaturePad init OK');
 
+  // Hide error message when user starts drawing
+  window.YSQP_SIG.addEventListener('beginStroke', () => {
+    const errMsg = document.querySelector('.error-message[data-inputname="signature"]');
+    if (errMsg) errMsg.style.display = 'none';
+  });
+
   // הוסף event listener לכפתור ניקוי
   const clearBtn = document.getElementById('ysqp-sig-clear');
   if (clearBtn) {
@@ -72,7 +78,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 			// Validate signature
 			if (window.YSQP_SIG && window.YSQP_SIG.isEmpty()) {
-				alert('נא להוסיף חתימה');
+				const errMsg = document.querySelector('.error-message[data-inputname="signature"]');
+				if (errMsg) errMsg.style.display = 'block';
 				document.getElementById('loader-circle-wrap').style.display = 'none';
 				return false;
 			}
