@@ -1,17 +1,20 @@
 .ys-quote-form-wrap {
-  margin: 2rem auto;
+  	margin: 2rem auto;
 }
-
-.from-row {
+.ys-quote-form-wrap .from-row {
 	display: flex;
 	flex-wrap: wrap;
 	margin-right: -10px;
 	margin-left: -10px;
 }
-.from-column {
+.ys-quote-form-wrap .from-column {
 	width: calc(33.33% - 20px);
+	margin-top: 18px;
 	margin-right: 10px;
 	margin-left: 10px;
+}
+.ys-quote-form-wrap .from-column p {
+	margin-bottom: 0;
 }
 .ys-quote-form-wrap input:not([type="checkbox"]),
 .ys-quote-form-wrap select,
@@ -37,7 +40,9 @@
 .ys-quote-form-wrap button:hover {
   	background: #1dd2af;
 }
-
+.ys-quote-form-wrap .signature-wrap {
+	margin-top: 18px;
+}
 .ys-quote-form-wrap .error-message {
 	display: none;
 	padding: 0.15rem 1rem;
@@ -74,18 +79,55 @@
 	border-top-color:#ff7a00;
 	animation:spin 1s linear infinite;
 }
+.signature-wrap {
+	position: relative;
+}
+.sig-pad {
+  border: 1px solid #ddd; 
+  border-radius: 6px; 
+  width: 280px; 
+}
+#ysqp-signature {
+  display: block;
+  touch-action: none;
+  user-select: none;
+}
+
+.sig-actions {
+	position: absolute;
+	z-index: 1;
+	top: 98px;
+	right: 2px;
+}
+
+button#ysqp-sig-clear {
+    width: 25px;
+    height: 25px;
+    padding: 2px;
+    border: 0;
+    border-radius: 6px;
+    background: #fff;
+    color: #fff;
+    cursor: pointer;
+}
+button#ysqp-sig-clear:hover{ background: #1dd2af; }
+button#ysqp-sig-clear:focus-visible { outline:2px solid #2684ff; outline-offset:2px; }
+button#ysqp-sig-clear svg {
+    width: 100%;
+    height: auto;
+}
 @keyframes spin{
 	to{
 		transform:rotate(360deg)
 	}
 }
 @media (max-width: 768px) {
-	.from-column {
+	.ys-quote-form-wrap .from-column {
 		width: calc(50% - 20px);
 	}
 }
 @media (max-width: 480px) {
-	.from-column {
+	.ys-quote-form-wrap .from-column {
 		width: 100%;
 	}
 }

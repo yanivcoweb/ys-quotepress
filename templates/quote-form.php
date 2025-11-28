@@ -5,43 +5,7 @@
 </div>
 
 <style>
-.signature-wrap {
-	position: relative;
-}
-.sig-pad {
-  border: 1px solid #ddd; 
-  border-radius: 6px; 
-  width: 280px; 
-}
-#ysqp-signature {
-  display: block;
-  touch-action: none;
-  user-select: none;
-}
 
-.sig-actions {
-	position: absolute;
-	z-index: 1;
-	bottom: 2px;
-	right: 2px;
-}
-
-button#ysqp-sig-clear {
-    width: 25px;
-    height: 25px;
-    padding: 2px;
-    border: 0;
-    border-radius: 6px;
-    background: #fff;
-    color: #fff;
-    cursor: pointer;
-}
-button#ysqp-sig-clear:hover{  }
-button#ysqp-sig-clear:focus-visible { outline:2px solid #2684ff; outline-offset:2px; }
-button#ysqp-sig-clear svg {
-    width: 100%;
-    height: auto;
-}
 </style>
 
 <form class="ys-quote-form form-validation-v3" method="post" action="#">
@@ -275,7 +239,19 @@ button#ysqp-sig-clear svg {
 </form>
 
 <div class="form-validation-ok">
-	<div><p>הטופס תקין. (אין שליחה בשלב זה)</p></div>
+  <div class="quote-form-success-message">
+    <h2>✔️ ההצעה נוצרה בהצלחה!</h2>
+
+    <p>תודה רבה שמילאת את כל הפרטים.<br>
+    קובץ ההצעה נוצר ונשמר במערכת.</p>
+
+    <p>
+      🔹 <strong>ניתן להוריד או לצפות בקובץ בלחיצה על הכפתור מטה.</strong><br>
+      🔹 בנוסף, <strong>נשלח אליך קישור לצפייה בהצעה במייל</strong> שהזנת בטופס.
+    </p>
+
+    <p>אם יש לך שאלות או צורך בעדכון נוסף — אנחנו כאן לשירותך.</p>
+  </div>
 	<div>
 		<a class="ys-download-pdf-btn ys-btn--ghost" href="" download>
 			<?php esc_html_e('הורדת PDF', 'ys-quotepress'); ?>
