@@ -4,10 +4,6 @@
   <div class="loader" aria-label="Loading…" ></div>
 </div>
 
-<style>
-
-</style>
-
 <form class="ys-quote-form form-validation-v3" method="post" action="#">
 
 	<div style="display:none;">

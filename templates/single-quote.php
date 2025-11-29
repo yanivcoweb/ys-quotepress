@@ -63,16 +63,6 @@ the_post();
 				<?php the_content(); ?>
 			</section>
 
-			<?php
-			// מקום למחיר/שורה תחתונה – אפשר למשוך ממטא:
-			$total_price = get_post_meta(get_the_ID(), 'quote_total_price', true);
-			if ( $total_price ) : ?>
-				<section class="ys-quote__total">
-					<strong><?php esc_html_e('סכום כולל:', 'ys-quotepress'); ?></strong>
-					<span class="ys-quote__price"><?php echo esc_html( $total_price ); ?></span>
-				</section>
-			<?php endif; ?>
-
 			<?php echo do_shortcode('[ysqp_quote_form]'); ?>
 			
 			<footer class="ys-quote__footer">
